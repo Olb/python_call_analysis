@@ -21,50 +21,27 @@ September 2016.".
 """
 
 """
-Returns true if is in list O(n)
-"""
-def is_in_list(number, records):
-    for record in records:
-        if record == number:
-            return True
-    return False
-
-
-"""
-Returns a count of the number of unique items in the given record O(n^2)
-"""
-def unique_numbers(calls, texts):
-    tally = []
-    for call in calls:
-        if not is_in_list(call[0], tally):
-            tally.append(call[0])
-        if not is_in_list(call[1], tally):
-            tally.append(call[1])
-    for text in texts:
-        if not is_in_list(call[0], tally):
-            tally.append(call[0])
-        if not is_in_list(call[1], tally):
-            tally.append(call[1])
-    return tally
-
-"""
-Returns a dictionary of calls in a given period
+Returns a dictionary of calls in a given period O(n)
 """
 def calls_in_period(calls, period):
-    # unique_numbers could be n^2
     uniques = unique_numbers(calls, [])
     unique_dictionary = {key: 0 for key in uniques}
-    # could be n^2
-    for key in unique_dictionary:
-        for call in calls:
-            if (call[0] == key or call[1] == key) and (call[2][3:10] == period):
-                unique_dictionary[key] += int(call[3])
-    return unique_dictionary
+    # Below was a suggestion from reviewer feedback
+    call_dict = {}
+    for call in calls:
+        if call[0] not in call_dict.keys():
+            call_dict[call[0]] = int(call[3])
+        else:
+            call_dict[call[0]] += int(call[3])
+        if call[1] not in call_dict.keys():
+            call_dict[call[1]] = int(call[3])
+        else:
+            call_dict[call[1]] += int(call[3])
 
 
 """
 Retuns the number and time in seconds of the longest time
-by a given number on calls in a given period O(n^2)
+by a given number on calls in a given period O(n)
 
 Parameters: str, format '09-2016' for September 2016
 """

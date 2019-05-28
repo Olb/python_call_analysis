@@ -26,49 +26,49 @@ The list of numbers should be print out one per line in lexicographic order with
 """
 
 """
-Checks if number is in the records O(n)
+Returns set of unique calls that are outgoing O(n)
 """
-def check_if_number_in_record(number, records):
-    for record in records:
-        if number == record[0] or number == record[1]:
-            return True
-    return False
-
-"""
-Checks if number is in outgoing O(n)
-"""
-def check_if_number_in_incoming(number, records):
-    for record in records:
-        if number == record[1]:
-            return True
-    return False
-
-"""
-Check if number exists in texts O(n^2)
-"""
-def all_non_texts(calls, texts):
-    tally = []
+def outgoing_calls(calls):
+    outgoing_unique = set([])
     for call in calls:
-        if not check_if_number_in_record(call[0], texts) and not check_if_number_in_record(call[1], texts):
-            tally.append(call)
-    return tally
+        outgoing_unique.add(call[0])
+    return outgoing_unique
 
 """
-Get list of all possibe telemarketers O(n^2)
+Returns a set of text numbers from the record O(n)
 """
-def get_possible_telemarketer_numbers(calls, texts):
-    possible_numbers = all_non_texts(calls, texts)
-    result = []
-    for possibility in possible_numbers:
-        if not check_if_number_in_incoming(possibility[0], possible_numbers):
-            result.append(possibility[0])
-    return result
+def text_numbers(texts):
+    texts_unique = set([])
+    for text in texts:
+        texts_unique.add(text[0])
+        texts_unique.add(text[1])
+    return texts_unique
 
+"""
+Returns only incoming calls from the record O(n)
+"""
+def incoming_calls(calls):
+    incoming = set([])
+    for call in calls:
+        incoming.add(call[1])
+    return incoming
+
+"""
+Returns a list of possibe telemarketers
+"""
+def possible_telemarketers(calls, texts):
+    outgoing_unique = set(outgoing_calls(calls))
+    texts_unique = set(text_numbers(texts))
+    incoming_unique = set(incoming_calls(calls))
+    return [outgoing for outgoing in outgoing_unique if outgoing not in texts_unique and outgoing not in incoming_unique]
+
+"""
+Prints a lexicographic list of possible telemarketers O(nlogn)due to .sort()
+"""
 def print_possible_telemarketers(calls, texts):
-    possible_numbers = get_possible_telemarketer_numbers(calls, texts)
-    possible_numbers.sort()
-    print('These numbers could be telemarketers:')
-    for possibility in possible_numbers:
+    print("These numbers could be telemarketers: ")
+    possible_telemarketers(calls, texts).sort()
+    for possibility in possible_telemarketers(calls, texts):
         print(possibility)
 
 def test():
@@ -83,17 +83,19 @@ def tests():
 
     test_cases_texts = [
     ['78993 92058','92413 96415','30-08-2016 23:14:19', '4'],
+    ['94689 72078','92414 96415','30-09-2016 23:14:19', '5'],
     ['94689 72078','92414 96415','30-09-2016 23:14:19', '5']]
 
-    assert(len(all_non_texts(test_cases_calls, test_cases_texts)) == 3)
+    expectation = {'97424 22395', '94489 72078', '78983 92058', '94689 72078', '78993 92058'}
+    assert(outgoing_calls(test_cases_calls) == expectation)
 
-    assert(check_if_number_in_record('78993 92058', test_cases_calls) == True)
-    assert(check_if_number_in_record('34521 92058', test_cases_calls) == False)
+    expectation = {'78993 92058', '92413 96415', '92414 96415', '94689 72078', '94689 72078'}
+    assert(text_numbers(test_cases_texts) == expectation)
 
-    assert(check_if_number_in_incoming('92414 96415', test_cases_calls) == True)
-    assert(check_if_number_in_incoming('90004 96415', test_cases_calls) == False)
+    expectation = {'90365 06212', '78983 92058', '92412 96415', '92413 96415', '92414 96415'}
+    assert(incoming_calls(test_cases_calls) == expectation)
 
-    expect = ['97424 22395','94489 72078']
-    assert(get_possible_telemarketer_numbers(test_cases_calls, test_cases_texts) == expect)
-
+    print(possible_telemarketers(test_cases_calls, test_cases_texts))
+    expectation = ['97424 22395', '94489 72078']
+    assert(possible_telemarketers(test_cases_calls, test_cases_texts) == expectation)
 test()
