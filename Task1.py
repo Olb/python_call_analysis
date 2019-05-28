@@ -20,29 +20,16 @@ Print a message:
 """
 
 """
-Returns true if is in list O(n)
-"""
-def is_in_list(number, records):
-    for record in records:
-        if record == number:
-            return True
-    return False
-
-"""
-Returns a list of numbers of unique items in the given record O(n^2)
+Returns a list of numbers of unique items in the given record O(n)
 """
 def unique_numbers(calls, texts):
-    tally = []
+    tally = set([])
     for call in calls:
-        if not is_in_list(call[0], tally):
-            tally.append(call[0])
-        if not is_in_list(call[1], tally):
-            tally.append(call[1])
+        tally.add(call[0])
+        tally.add(call[1])
     for text in texts:
-        if not is_in_list(texts[0], tally):
-            tally.append(texts[0])
-        if not is_in_list(texts[1], tally):
-            tally.append(texts[1])
+        tally.add(text[0])
+        tally.add(text[1])
     return tally
 
 def test():
