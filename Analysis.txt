@@ -3,12 +3,11 @@ Big O Analysis
 1) Task0 is O(n) because each loop is O(n) and there are two loops
 for O(2n) which reduces to O(n).
 
-2) Task1 is O(n^2). As inner loop grows in the worst case it will approach n
-   for an average of 1/2n times so n*1/2n = n^2
+2) Task1 is O(n). It has two loops each of which are O(n) so O(2n) which is O(n)
 
 3) Task2 is O(n) due to single loops over calls.
 
-4) Task3 is O(n^2). called_by_bangalore has a loop within a loop so O(n*n) 
+4) Task3 is O(n^2). called_by_bangalore has a loop within a loop so O(n*n)
 
 5) Task4 is O(nlogn) because the python3 .sort() is the longest method where the
    other methods are O(n)
