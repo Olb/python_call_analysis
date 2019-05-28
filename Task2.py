@@ -24,8 +24,6 @@ September 2016.".
 Returns a dictionary of calls in a given period O(n)
 """
 def calls_in_period(calls, period):
-    uniques = unique_numbers(calls, [])
-    unique_dictionary = {key: 0 for key in uniques}
     # Below was a suggestion from reviewer feedback
     call_dict = {}
     for call in calls:
@@ -37,6 +35,7 @@ def calls_in_period(calls, period):
             call_dict[call[1]] = int(call[3])
         else:
             call_dict[call[1]] += int(call[3])
+    return call_dict
 
 
 """

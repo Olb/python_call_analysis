@@ -39,10 +39,10 @@ def unique_numbers(calls, texts):
         if not is_in_list(call[1], tally):
             tally.append(call[1])
     for text in texts:
-        if not is_in_list(call[0], tally):
-            tally.append(call[0])
-        if not is_in_list(call[1], tally):
-            tally.append(call[1])
+        if not is_in_list(texts[0], tally):
+            tally.append(texts[0])
+        if not is_in_list(texts[1], tally):
+            tally.append(texts[1])
     return tally
 
 def test():

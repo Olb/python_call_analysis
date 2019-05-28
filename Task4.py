@@ -67,8 +67,7 @@ Prints a lexicographic list of possible telemarketers O(nlogn)due to .sort()
 """
 def print_possible_telemarketers(calls, texts):
     print("These numbers could be telemarketers: ")
-    possible_telemarketers(calls, texts).sort()
-    for possibility in possible_telemarketers(calls, texts):
+    for possibility in sorted(possible_telemarketers(calls, texts)):
         print(possibility)
 
 def test():
